@@ -98,7 +98,6 @@ export class WebClient extends Methods {
         }
 
         this.axiod = axiod.create({
-            baseURL: slackApiUrl,
             headers: {
                 'User-Agent': getUserAgent(),
                 ...headers
@@ -284,7 +283,10 @@ export class WebClient extends Methods {
         const task = () => this.requestQueue.add(async () => {
             this.logger.debug('will perform http request')
             try {
-                const response = await this.axiod.post(url, body, {
+                const response = await this.axiod.request({
+                    url,
+                    data: body,
+                    baseURL: this.slackApiUrl,
                     headers,
                 })
 
