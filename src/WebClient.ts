@@ -41,7 +41,14 @@ export class WebClient extends Methods {
      */
     private requestQueue: PQueue
 
-    private axiod
+    private axiodConfig: {
+        baseURL: string
+        headers: {
+            'User-Agent': string
+        }
+        transformRequest: ((options: Data, headers?: IHeaderData | undefined) => Data)[]
+        validateStatus: () => boolean
+    }
 
     /**
      * Preference for immediately rejecting API calls which result in a rate-limited response
@@ -97,14 +104,15 @@ export class WebClient extends Methods {
             this.logger = getLogger(WebClient.loggerName, logLevel, logger)
         }
 
-        this.axiod = axiod.create({
+        this.axiodConfig = {
+            baseURL: this.slackApiUrl,
             headers: {
                 'User-Agent': getUserAgent(),
                 ...headers
             },
             transformRequest: [this.serializeApiCallOptions.bind(this)],
             validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
-        })
+        }
 
         this.logger.debug('initialized')
     }
@@ -278,16 +286,20 @@ export class WebClient extends Methods {
     private makeRequest(
         url: string,
         body: IData,
-        headers?: IHeaderData
+        headers: IHeaderData = {}
     ): Promise<IAxiodResponse> {
         const task = () => this.requestQueue.add(async () => {
             this.logger.debug('will perform http request')
             try {
-                const response = await this.axiod.request({
-                    url,
+                const response = await axiod.request({
+                    ...this.axiodConfig,
+                    method: 'POST',
                     data: body,
-                    baseURL: this.slackApiUrl,
-                    headers,
+                    url,
+                    headers: {
+                        ...headers,
+                        ...this.axiodConfig.headers
+                    },
                 })
 
                 this.logger.debug('http response received')
@@ -388,17 +400,16 @@ export class WebClient extends Methods {
                 )
             // Copying FormData-generated headers into headers param
             // not reassigning to headers param since it is passed by reference and behaves as an inout param
-            if (headers) {
-                for (const [header, value] of form.entries()) {
-                    headers.set(header, value)
-                }
+            for (const [header, value] of form.entries()) {
+                headers![header] = value
             }
 
             return form
         }
 
         // Otherwise, a simple key-value object is returned
-        if (headers) headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        headers!['Content-Type'] = 'application/x-www-form-urlencoded'
+
         return new URLSearchParams(
             flattened as [string, string][] // Type ensured by containsBinaryData
         ).toString()
