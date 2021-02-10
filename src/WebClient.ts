@@ -417,12 +417,15 @@ export class WebClient extends Methods {
         }
 
         // add scopes metadata from headers
-        if (response.headers.get('x-oauth-scopes') !== undefined) {
-            data.response_metadata.scopes = (response.headers.get('x-oauth-scopes') as string).trim().split(/\s*,\s*/)
+        const xOauthScopes = response.headers.get('x-oauth-scopes')
+        const xAcceptedOauthScopes = response.headers.get('x-accepted-oauth-scopes')
+
+        if (xOauthScopes) {
+            data.response_metadata.scopes = xOauthScopes.trim().split(/\s*,\s*/)
         }
-        if (response.headers.get('x-accepted-oauth-scopes') !== undefined) {
+        if (xAcceptedOauthScopes) {
             data.response_metadata.acceptedScopes =
-                (response.headers.get('x-accepted-oauth-scopes') as string).trim().split(/\s*,\s*/)
+                xAcceptedOauthScopes.trim().split(/\s*,\s*/)
         }
 
         // add retry metadata from headers
