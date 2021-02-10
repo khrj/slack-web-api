@@ -1,5 +1,5 @@
 import { InputOptions } from 'https://deno.land/x/p_retried@1.0.4/mod.ts'
-export { InputOptions as RetryOptions } from 'https://deno.land/x/p_retried@1.0.4/mod.ts'
+export type { InputOptions as RetryOptions } from 'https://deno.land/x/p_retried@1.0.4/mod.ts'
 
 /**
  * The default retry policy. Retry up to 10 times, over the span of about 30 minutes. It's not exact because
