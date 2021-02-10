@@ -7,7 +7,7 @@ export type {
     PageReducer,
     PaginatePredicate,
     WebClientEvent,
-} from './WebClient.ts'
+} from './src/WebClient.ts'
 
 export type { Logger, LogLevel } from 'https://deno.land/x/slack_logger@3.0.0/mod.ts'
 
@@ -19,11 +19,11 @@ export type {
     WebAPIRequestError,
     WebAPIHTTPError,
     WebAPIRateLimitedError,
-} from './errors.ts'
+} from './src/errors.ts'
 
-export type { default as retryPolicies, RetryOptions } from './retry-policies.ts'
+export type { default as retryPolicies, RetryOptions } from './src/retry-policies.ts'
 
-export { addAppMetadata } from './instrument.ts'
+export { addAppMetadata } from './src/instrument.ts'
 
-export * from './methods.ts'
-export type { default as Method } from './methods.ts'
+export * from './src/methods.ts'
+export type { default as Method } from './src/methods.ts'
