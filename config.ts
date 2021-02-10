@@ -1,2 +1,2 @@
 export const name = "@slack/web-api"
-export const version = "0.0.5"
+export const version = "1.0.0"
