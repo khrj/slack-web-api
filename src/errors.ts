@@ -49,7 +49,7 @@ export interface WebAPIHTTPError extends CodedError {
     statusCode: number
     statusMessage: string
     headers: Headers
-    body?: any
+    body?: string
 }
 
 export interface WebAPIRateLimitedError extends CodedError {

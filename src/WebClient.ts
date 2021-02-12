@@ -1,3 +1,4 @@
+// deno-lint-ignore-file camelcase
 import { basename } from "https://deno.land/std@0.86.0/path/mod.ts"
 
 import PQueue from 'https://deno.land/x/p_queue@1.0.0/mod.ts'
@@ -497,6 +498,7 @@ export interface PaginatePredicate {
     (page: WebAPICallResult): boolean | undefined | void
 }
 
+// deno-lint-ignore no-explicit-any
 export interface PageReducer<A = any> {
     (accumulator: A | undefined, page: WebAPICallResult, index: number): A
 }

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file camelcase
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from 'https://deno.land/x/slack_types@3.0.0/mod.ts'
 import { WebAPICallOptions, WebAPICallResult, WebClient } from './WebClient.ts'
 
