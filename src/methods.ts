@@ -1,5 +1,5 @@
 // deno-lint-ignore-file camelcase
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from 'https://deno.land/x/slack_types@3.0.0/mod.ts'
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '../deps.ts'
 import { WebAPICallOptions, WebAPICallResult, WebClient } from './WebClient.ts'
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`

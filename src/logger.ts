@@ -1,4 +1,4 @@
-import { Logger, LogLevel, ConsoleLogger } from 'https://deno.land/x/slack_logger@3.0.0/mod.ts'
+import { Logger, LogLevel, ConsoleLogger } from '../deps.ts'
 
 let instanceCount = 0
 

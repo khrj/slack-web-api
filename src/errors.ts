@@ -1,4 +1,4 @@
-import { IAxiodResponse } from "https://deno.land/x/axiod@0.20.0-0/interfaces.ts"
+import { IAxiodResponse } from "../deps.ts"
 import { WebAPICallResult } from './WebClient.ts'
 
 /**

@@ -1,18 +1,33 @@
 // deno-lint-ignore-file camelcase
-import { basename } from "https://deno.land/std@0.86.0/path/mod.ts"
-
-import PQueue from 'https://deno.land/x/p_queue@1.0.0/mod.ts'
-import pRetried, { AbortError } from 'https://deno.land/x/p_retried@1.0.3/mod.ts'
-import axiod from "https://deno.land/x/axiod@0.20.0-0/mod.ts"
-
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods.ts'
 import { getUserAgent } from './instrument.ts'
 import { requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay } from './errors.ts'
-import { Logger, LogLevel } from 'https://deno.land/x/slack_logger@3.0.0/mod.ts'
 import { getLogger } from './logger.ts'
 import retryPolicies, { RetryOptions } from './retry-policies.ts'
 import { delay } from './helpers.ts'
-import { IAxiodResponse, IHeaderData, Data, IData } from "https://deno.land/x/axiod@0.20.0-0/interfaces.ts"
+
+import {
+    // axiod
+    IAxiodResponse, 
+    IHeaderData, 
+    Data, 
+    IData,
+    axiod,
+
+    // slack_logger
+    Logger, 
+    LogLevel,
+
+    // pRetried
+    pRetried,
+    AbortError,
+
+    // pQueue
+    PQueue,
+
+    // std/path
+    basename
+} from "../deps.ts"
 
 /**
  * A client for Slack's Web API
