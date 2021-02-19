@@ -1,32 +1,33 @@
 // deno-lint-ignore-file camelcase
-import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods.ts'
-import { getUserAgent } from './instrument.ts'
-import { requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay } from './errors.ts'
-import { getLogger } from './logger.ts'
-import retryPolicies, { RetryOptions } from './retry-policies.ts'
-import { delay } from './helpers.ts'
+import {
+    httpErrorFromResponse,
+    platformErrorFromResult,
+    rateLimitedErrorWithDelay,
+    requestErrorWithOriginal,
+} from "./errors.ts"
+import { delay } from "./helpers.ts"
+import { getUserAgent } from "./instrument.ts"
+import { getLogger } from "./logger.ts"
+import { CursorPaginationEnabled, cursorPaginationEnabledMethods, Methods } from "./methods.ts"
+import retryPolicies, { RetryOptions } from "./retry-policies.ts"
 
 import {
-    // axiod
-    IAxiodResponse, 
-    IHeaderData, 
-    Data, 
-    IData,
-    axiod,
-
-    // slack_logger
-    Logger, 
-    LogLevel,
-
-    // pRetried
-    pRetried,
     AbortError,
-
+    axiod,
+    // std/path
+    basename,
+    Data,
+    // axiod
+    IAxiodResponse,
+    IData,
+    IHeaderData,
+    // slack_logger
+    Logger,
+    LogLevel,
     // pQueue
     PQueue,
-
-    // std/path
-    basename
+    // pRetried
+    pRetried,
 } from "../deps.ts"
 
 /**
@@ -60,7 +61,7 @@ export class WebClient extends Methods {
     private axiodConfig: {
         baseURL: string
         headers: {
-            'User-Agent': string
+            "User-Agent": string
         }
         transformRequest: ((options: Data, headers?: IHeaderData | undefined) => Data)[]
         validateStatus: () => boolean
@@ -74,7 +75,7 @@ export class WebClient extends Methods {
     /**
      * The name used to prefix all logging generated from this object
      */
-    private static loggerName = 'WebClient'
+    private static loggerName = "WebClient"
 
     /**
      * This object's logger instance
@@ -90,7 +91,7 @@ export class WebClient extends Methods {
      * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
      */
     constructor(token?: string, {
-        slackApiUrl = 'https://slack.com/api/',
+        slackApiUrl = "https://slack.com/api/",
         logger = undefined,
         logLevel = LogLevel.INFO,
         maxRequestConcurrency = 3,
@@ -111,10 +112,10 @@ export class WebClient extends Methods {
         this.teamId = teamId
 
         // Logging
-        if (typeof logger !== 'undefined') {
+        if (typeof logger !== "undefined") {
             this.logger = logger
-            if (typeof logLevel !== 'undefined') {
-                this.logger.debug('The logLevel given to WebClient was ignored as you also gave logger')
+            if (typeof logLevel !== "undefined") {
+                this.logger.debug("The logLevel given to WebClient was ignored as you also gave logger")
             }
         } else {
             this.logger = getLogger(WebClient.loggerName, logLevel, logger)
@@ -123,14 +124,14 @@ export class WebClient extends Methods {
         this.axiodConfig = {
             baseURL: this.slackApiUrl,
             headers: {
-                'User-Agent': getUserAgent(),
-                ...headers
+                "User-Agent": getUserAgent(),
+                ...headers,
             },
             transformRequest: [this.serializeApiCallOptions.bind(this)],
             validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
         }
 
-        this.logger.debug('initialized')
+        this.logger.debug("initialized")
     }
 
     /**
@@ -144,7 +145,7 @@ export class WebClient extends Methods {
 
         warnDeprecations(method, this.logger)
 
-        if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+        if (typeof options === "string" || typeof options === "number" || typeof options === "boolean") {
             throw new TypeError(`Expected an options argument but instead received a ${typeof options}`)
         }
 
@@ -226,13 +227,14 @@ export class WebClient extends Methods {
         shouldStop?: PaginatePredicate,
         reduce?: PageReducer<A>,
     ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
-
         if (!cursorPaginationEnabledMethods.has(method)) {
-            this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`)
+            this.logger.warn(
+                `paginate() called with method ${method}, which is not known to be cursor pagination enabled.`,
+            )
         }
 
         const pageSize = (() => {
-            if (options !== undefined && typeof options.limit === 'number') {
+            if (options !== undefined && typeof options.limit === "number") {
                 const limit = options.limit
                 delete options.limit
                 return limit
@@ -302,64 +304,65 @@ export class WebClient extends Methods {
     private makeRequest(
         url: string,
         body: IData,
-        headers: IHeaderData = {}
+        headers: IHeaderData = {},
     ): Promise<IAxiodResponse> {
-        const task = () => this.requestQueue.add(async () => {
-            this.logger.debug('will perform http request')
-            try {
-                const response = await axiod.request({
-                    ...this.axiodConfig,
-                    method: 'POST',
-                    data: body,
-                    url,
-                    headers: {
-                        ...headers,
-                        ...this.axiodConfig.headers
-                    },
-                })
+        const task = () =>
+            this.requestQueue.add(async () => {
+                this.logger.debug("will perform http request")
+                try {
+                    const response = await axiod.request({
+                        ...this.axiodConfig,
+                        method: "POST",
+                        data: body,
+                        url,
+                        headers: {
+                            ...headers,
+                            ...this.axiodConfig.headers,
+                        },
+                    })
 
-                this.logger.debug('http response received')
+                    this.logger.debug("http response received")
 
-                if (response.status === 429) {
-                    const retrySec = parseRetryHeaders(response)
-                    if (retrySec !== undefined) {
-                        this.dispatchEvent(new CustomEvent(WebClientEvent.RATE_LIMITED, { detail: retrySec }))
-                        if (this.rejectRateLimitedCalls) {
-                            throw new AbortError(rateLimitedErrorWithDelay(retrySec))
+                    if (response.status === 429) {
+                        const retrySec = parseRetryHeaders(response)
+                        if (retrySec !== undefined) {
+                            this.dispatchEvent(new CustomEvent(WebClientEvent.RATE_LIMITED, { detail: retrySec }))
+                            if (this.rejectRateLimitedCalls) {
+                                throw new AbortError(rateLimitedErrorWithDelay(retrySec))
+                            }
+                            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`)
+                            // pause the request queue and then delay the rejection by the amount of time in the retry header
+                            this.requestQueue.pause()
+                            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+                            // would be, then we could subtract that time from the following delay, knowing that it the next
+                            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+                            // solution would be to subtract the time from only the timeout of this next attempt of the
+                            // RetryOperation. this would result in the staying paused for the entire duration specified in the
+                            // header, yet this operation not having to pay the timeout cost in addition to that.
+                            await delay(retrySec * 1000)
+                            // resume the request queue and throw a non-abort error to signal a retry
+                            this.requestQueue.start()
+                            throw Error("A rate limit was exceeded.")
+                        } else {
+                            // TODO: turn this into some CodedError
+                            throw new AbortError(new Error("Retry header did not contain a valid timeout."))
                         }
-                        this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`)
-                        // pause the request queue and then delay the rejection by the amount of time in the retry header
-                        this.requestQueue.pause()
-                        // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-                        // would be, then we could subtract that time from the following delay, knowing that it the next
-                        // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-                        // solution would be to subtract the time from only the timeout of this next attempt of the
-                        // RetryOperation. this would result in the staying paused for the entire duration specified in the
-                        // header, yet this operation not having to pay the timeout cost in addition to that.
-                        await delay(retrySec * 1000)
-                        // resume the request queue and throw a non-abort error to signal a retry
-                        this.requestQueue.start()
-                        throw Error('A rate limit was exceeded.')
-                    } else {
-                        // TODO: turn this into some CodedError
-                        throw new AbortError(new Error('Retry header did not contain a valid timeout.'))
                     }
-                }
 
-                // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-                if (response.status !== 200) {
-                    throw httpErrorFromResponse(response)
-                }
+                    // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+                    if (response.status !== 200) {
+                        throw httpErrorFromResponse(response)
+                    }
 
-                return response
-            } catch (error) {
-                this.logger.warn('http request failed', error.message)
-                if (error.request) {
-                    throw requestErrorWithOriginal(error)
+                    return response
+                } catch (error) {
+                    this.logger.warn("http request failed", error.message)
+                    if (error.request) {
+                        throw requestErrorWithOriginal(error)
+                    }
+                    throw error
                 }
-                throw error
-            }
-        })
+            })
 
         return pRetried(task, this.retryConfig)
     }
@@ -377,43 +380,41 @@ export class WebClient extends Methods {
         // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
         // binary content
         let containsBinaryData = false
-        const flattened =
-            Object.entries(options as IData) // axiod.post is only called internally
-                .flatMap(([key, value]): [[string, string | Blob]] | [] => {
-                    if (value === undefined || value === null) {
-                        return []
-                    }
+        const flattened = Object.entries(options as IData) // axiod.post is only called internally
+            .flatMap(([key, value]): [[string, string | Blob]] | [] => {
+                if (value === undefined || value === null) {
+                    return []
+                }
 
-                    let serializedValue: string | Blob = value
+                let serializedValue: string | Blob = value
 
-                    if (value instanceof Blob) {
-                        containsBinaryData = true
-                    } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-                        serializedValue = value.toString()
-                    } else {
-                        // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
-                        // as a JSON string.
-                        serializedValue = JSON.stringify(value)
-                    }
+                if (value instanceof Blob) {
+                    containsBinaryData = true
+                } else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+                    serializedValue = value.toString()
+                } else {
+                    // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+                    // as a JSON string.
+                    serializedValue = JSON.stringify(value)
+                }
 
-                    return [[key, serializedValue]]
-                })
+                return [[key, serializedValue]]
+            })
 
         // A body with binary content should be serialized as multipart/form-data
         if (containsBinaryData) {
-            this.logger.debug('request arguments contain binary data')
-            const form =
-                flattened.reduce(
-                    (form, [key, value]) => {
-                        if (value instanceof File) {
-                            form.append(key, value, basename(value.name))
-                        } else {
-                            form.append(key, value)
-                        }
-                        return form
-                    },
-                    new FormData(),
-                )
+            this.logger.debug("request arguments contain binary data")
+            const form = flattened.reduce(
+                (form, [key, value]) => {
+                    if (value instanceof File) {
+                        form.append(key, value, basename(value.name))
+                    } else {
+                        form.append(key, value)
+                    }
+                    return form
+                },
+                new FormData(),
+            )
             // Copying FormData-generated headers into headers param
             // not reassigning to headers param since it is passed by reference and behaves as an inout param
             for (const [header, value] of form.entries()) {
@@ -424,10 +425,10 @@ export class WebClient extends Methods {
         }
 
         // Otherwise, a simple key-value object is returned
-        headers!['Content-Type'] = 'application/x-www-form-urlencoded'
+        headers!["Content-Type"] = "application/x-www-form-urlencoded"
 
         return new URLSearchParams(
-            flattened as [string, string][] // Type ensured by containsBinaryData
+            flattened as [string, string][], // Type ensured by containsBinaryData
         ).toString()
     }
 
@@ -444,15 +445,14 @@ export class WebClient extends Methods {
         }
 
         // add scopes metadata from headers
-        const xOauthScopes = response.headers.get('x-oauth-scopes')
-        const xAcceptedOauthScopes = response.headers.get('x-accepted-oauth-scopes')
+        const xOauthScopes = response.headers.get("x-oauth-scopes")
+        const xAcceptedOauthScopes = response.headers.get("x-accepted-oauth-scopes")
 
         if (xOauthScopes) {
             data.response_metadata.scopes = xOauthScopes.trim().split(/\s*,\s*/)
         }
         if (xAcceptedOauthScopes) {
-            data.response_metadata.acceptedScopes =
-                xAcceptedOauthScopes.trim().split(/\s*,\s*/)
+            data.response_metadata.acceptedScopes = xAcceptedOauthScopes.trim().split(/\s*,\s*/)
         }
 
         // add retry metadata from headers
@@ -482,9 +482,8 @@ export interface WebClientOptions {
     teamId?: string
 }
 
-
 export enum WebClientEvent {
-    RATE_LIMITED = 'rate_limited',
+    RATE_LIMITED = "rate_limited",
 }
 
 export interface WebAPICallOptions {
@@ -518,14 +517,14 @@ export interface PageReducer<A = any> {
     (accumulator: A | undefined, page: WebAPICallResult, index: number): A
 }
 
-export type PageAccumulator<R extends PageReducer> =
-    R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never
+export type PageAccumulator<R extends PageReducer> = R extends
+    (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never
 
 /*
  * Helpers
  */
 
-const defaultFilename = 'Untitled'
+const defaultFilename = "Untitled"
 const defaultPageSize = 200
 const noopPageReducer: PageReducer = () => undefined
 
@@ -535,13 +534,14 @@ const noopPageReducer: PageReducer = () => undefined
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
 function paginationOptionsForNextPage(
-    previousResult: WebAPICallResult | undefined, pageSize: number,
+    previousResult: WebAPICallResult | undefined,
+    pageSize: number,
 ): CursorPaginationEnabled | undefined {
     if (
-        previousResult !== undefined &&
-        previousResult.response_metadata !== undefined &&
-        previousResult.response_metadata.next_cursor !== undefined &&
-        previousResult.response_metadata.next_cursor !== ''
+        previousResult !== undefined
+        && previousResult.response_metadata !== undefined
+        && previousResult.response_metadata.next_cursor !== undefined
+        && previousResult.response_metadata.next_cursor !== ""
     ) {
         return {
             limit: pageSize,
@@ -556,8 +556,8 @@ function paginationOptionsForNextPage(
  * from a rate-limited HTTP response (statusCode = 429).
  */
 function parseRetryHeaders(response: IAxiodResponse): number | undefined {
-    if (response.headers.get('retry-after') !== undefined) {
-        const retryAfter = parseInt((response.headers.get('retry-after') as string), 10)
+    if (response.headers.get("retry-after") !== undefined) {
+        const retryAfter = parseInt((response.headers.get("retry-after") as string), 10)
 
         if (!Number.isNaN(retryAfter)) {
             return retryAfter
@@ -572,9 +572,9 @@ function parseRetryHeaders(response: IAxiodResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-    const deprecatedConversationsMethods = ['channels.', 'groups.', 'im.', 'mpim.']
+    const deprecatedConversationsMethods = ["channels.", "groups.", "im.", "mpim."]
 
-    const deprecatedMethods = ['admin.conversations.whitelist.']
+    const deprecatedMethods = ["admin.conversations.whitelist."]
 
     const isDeprecatedConversations = deprecatedConversationsMethods.some((depMethod) => {
         const re = new RegExp(`^${depMethod}`)
@@ -587,7 +587,9 @@ function warnDeprecations(method: string, logger: Logger): void {
     })
 
     if (isDeprecatedConversations) {
-        logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`)
+        logger.warn(
+            `${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`,
+        )
     } else if (isDeprecated) {
         logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`)
     }

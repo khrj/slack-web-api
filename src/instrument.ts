@@ -1,15 +1,15 @@
-import { name, version } from '../config.ts'
+import { name, version } from "../config.ts"
 
 /**
  * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
  */
 function replaceSlashes(s: string): string {
-    return s.replace('/', ':')
+    return s.replace("/", ":")
 }
 
-const baseUserAgent = `${replaceSlashes(name)}/${version} ` +
-                      `deno/${Deno.version.deno} ` +
-                      `${Deno.build.os}`
+const baseUserAgent = `${replaceSlashes(name)}/${version} `
+    + `deno/${Deno.version.deno} `
+    + `${Deno.build.os}`
 
 const appMetadata: { [key: string]: string } = {}
 
@@ -18,7 +18,7 @@ const appMetadata: { [key: string]: string } = {}
  * @param appMetadata.name - name of tool to be counted in instrumentation
  * @param appMetadata.version - version of tool to be counted in instrumentation
  */
-export function addAppMetadata({ name, version }: { name: string, version: string }): void {
+export function addAppMetadata({ name, version }: { name: string; version: string }): void {
     appMetadata[replaceSlashes(name)] = version
 }
 
@@ -26,7 +26,7 @@ export function addAppMetadata({ name, version }: { name: string, version: strin
  * Returns the current User-Agent value for instrumentation
  */
 export function getUserAgent(): string {
-    const appIdentifier = Object.entries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ')
+    const appIdentifier = Object.entries(appMetadata).map(([name, version]) => `${name}/${version}`).join(" ")
     // only prepend the appIdentifier when its not empty
-    return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent
+    return ((appIdentifier.length > 0) ? `${appIdentifier} ` : "") + baseUserAgent
 }

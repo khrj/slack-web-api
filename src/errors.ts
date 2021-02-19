@@ -1,15 +1,15 @@
 import { IAxiodResponse } from "../deps.ts"
-import { WebAPICallResult } from './WebClient.ts'
+import { WebAPICallResult } from "./WebClient.ts"
 
 /**
  * Deno polyfill for ErrnoException
  */
 interface ErrnoException {
-    code?: string,
+    code?: string
     errno?: number
-    message: string,
-    name: string,
-    path?: string,
+    message: string
+    name: string
+    path?: string
     syscall?: string
 }
 
@@ -24,10 +24,10 @@ export interface CodedError extends ErrnoException {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
-  RequestError = 'slack_webapi_request_error',
-  HTTPError = 'slack_webapi_http_error',
-  PlatformError = 'slack_webapi_platform_error',
-  RateLimitedError = 'slack_webapi_rate_limited_error',
+    RequestError = "slack_webapi_request_error",
+    HTTPError = "slack_webapi_http_error",
+    PlatformError = "slack_webapi_platform_error",
+    RateLimitedError = "slack_webapi_rate_limited_error",
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError

@@ -1,6 +1,6 @@
 // deno-lint-ignore-file camelcase
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '../deps.ts'
-import { WebAPICallOptions, WebAPICallResult, WebClient } from './WebClient.ts'
+import { Block, CallUser, Dialog, KnownBlock, LinkUnfurls, MessageAttachment, View } from "../deps.ts"
+import { WebAPICallOptions, WebAPICallResult, WebClient } from "./WebClient.ts"
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -33,7 +33,7 @@ export abstract class Methods extends EventTarget {
 
         // Check that the class being created extends from `WebClient` rather than this class
         if (new.target !== WebClient && !(new.target.prototype instanceof WebClient)) {
-            throw new Error('Attempt to inherit from WebClient methods without inheriting from WebClient')
+            throw new Error("Attempt to inherit from WebClient methods without inheriting from WebClient")
         }
     }
 
@@ -41,403 +41,481 @@ export abstract class Methods extends EventTarget {
 
     public readonly admin = {
         apps: {
-            approve: bindApiCall<AdminAppsApproveArguments, WebAPICallResult>(this, 'admin.apps.approve'),
+            approve: bindApiCall<AdminAppsApproveArguments, WebAPICallResult>(this, "admin.apps.approve"),
             approved: {
-                list: bindApiCall<AdminAppsApprovedListArguments, WebAPICallResult>(this, 'admin.apps.approved.list'),
+                list: bindApiCall<AdminAppsApprovedListArguments, WebAPICallResult>(this, "admin.apps.approved.list"),
             },
             requests: {
-                list: bindApiCall<AdminAppsRequestsListArguments, WebAPICallResult>(this, 'admin.apps.requests.list'),
+                list: bindApiCall<AdminAppsRequestsListArguments, WebAPICallResult>(this, "admin.apps.requests.list"),
             },
-            restrict: bindApiCall<AdminAppsRestrictArguments, WebAPICallResult>(this, 'admin.apps.restrict'),
+            restrict: bindApiCall<AdminAppsRestrictArguments, WebAPICallResult>(this, "admin.apps.restrict"),
             restricted: {
-                list:
-                    bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(this, 'admin.apps.restricted.list'),
+                list: bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(
+                    this,
+                    "admin.apps.restricted.list",
+                ),
             },
         },
         barriers: {
-            create: bindApiCall<AdminBarriersCreateArguments, WebAPICallResult>(this, 'admin.barriers.create'),
-            delete: bindApiCall<AdminBarriersDeleteArguments, WebAPICallResult>(this, 'admin.barriers.delete'),
-            list: bindApiCall<AdminBarriersListArguments, WebAPICallResult>(this, 'admin.barriers.list'),
-            update: bindApiCall<AdminBarriersUpdateArguments, WebAPICallResult>(this, 'admin.barriers.update'),
+            create: bindApiCall<AdminBarriersCreateArguments, WebAPICallResult>(this, "admin.barriers.create"),
+            delete: bindApiCall<AdminBarriersDeleteArguments, WebAPICallResult>(this, "admin.barriers.delete"),
+            list: bindApiCall<AdminBarriersListArguments, WebAPICallResult>(this, "admin.barriers.list"),
+            update: bindApiCall<AdminBarriersUpdateArguments, WebAPICallResult>(this, "admin.barriers.update"),
         },
         conversations: {
-            archive: bindApiCall<AdminConversationsArchiveArguments, WebAPICallResult>(this, 'admin.conversations.archive'),
+            archive: bindApiCall<AdminConversationsArchiveArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.archive",
+            ),
             convertToPrivate: bindApiCall<AdminConversationsConvertToPrivateArguments, WebAPICallResult>(
-                this, 'admin.conversations.convertToPrivate'),
-            create: bindApiCall<AdminConversationsCreateArguments, WebAPICallResult>(this, 'admin.conversations.create'),
-            delete: bindApiCall<AdminConversationsDeleteArguments, WebAPICallResult>(this, 'admin.conversations.delete'),
+                this,
+                "admin.conversations.convertToPrivate",
+            ),
+            create: bindApiCall<AdminConversationsCreateArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.create",
+            ),
+            delete: bindApiCall<AdminConversationsDeleteArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.delete",
+            ),
             disconnectShared: bindApiCall<AdminConversationsDisconnectSharedArguments, WebAPICallResult>(
-                this, 'admin.conversations.disconnectShared'),
+                this,
+                "admin.conversations.disconnectShared",
+            ),
             ekm: {
-                listOriginalConnectedChannelInfo:
-                    bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments, WebAPICallResult>(
-                        this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo'),
+                listOriginalConnectedChannelInfo: bindApiCall<
+                    AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
+                    WebAPICallResult
+                >(
+                    this,
+                    "admin.conversations.ekm.listOriginalConnectedChannelInfo",
+                ),
             },
             getConversationPrefs: bindApiCall<AdminConversationsGetConversationPrefsArguments, WebAPICallResult>(
-                this, 'admin.conversations.getConversationPrefs'),
+                this,
+                "admin.conversations.getConversationPrefs",
+            ),
             getTeams: bindApiCall<AdminConversationsGetTeamsArguments, WebAPICallResult>(
-                this, 'admin.conversations.getTeams'),
-            invite: bindApiCall<AdminConversationsInviteArguments, WebAPICallResult>(this, 'admin.conversations.invite'),
-            rename: bindApiCall<AdminConversationsRenameArguments, WebAPICallResult>(this, 'admin.conversations.rename'),
+                this,
+                "admin.conversations.getTeams",
+            ),
+            invite: bindApiCall<AdminConversationsInviteArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.invite",
+            ),
+            rename: bindApiCall<AdminConversationsRenameArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.rename",
+            ),
             restrictAccess: {
                 addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments, WebAPICallResult>(
-                    this, 'admin.conversations.restrictAccess.addGroup'),
+                    this,
+                    "admin.conversations.restrictAccess.addGroup",
+                ),
                 listGroups: bindApiCall<AdminConversationsRestrictAccessListGroupsArguments, WebAPICallResult>(
-                    this, 'admin.conversations.restrictAccess.listGroups'),
+                    this,
+                    "admin.conversations.restrictAccess.listGroups",
+                ),
                 removeGroup: bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments, WebAPICallResult>(
-                    this, 'admin.conversations.restrictAccess.removeGroup'),
+                    this,
+                    "admin.conversations.restrictAccess.removeGroup",
+                ),
             },
-            search: bindApiCall<AdminConversationsSearchArguments, WebAPICallResult>(this, 'admin.conversations.search'),
+            search: bindApiCall<AdminConversationsSearchArguments, WebAPICallResult>(
+                this,
+                "admin.conversations.search",
+            ),
             setConversationPrefs: bindApiCall<AdminConversationsSetConversationPrefsArguments, WebAPICallResult>(
-                this, 'admin.conversations.setConversationPrefs'),
+                this,
+                "admin.conversations.setConversationPrefs",
+            ),
             setTeams: bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(
-                this, 'admin.conversations.setTeams'),
+                this,
+                "admin.conversations.setTeams",
+            ),
             unarchive: bindApiCall<AdminConversationsUnarchiveArguments, WebAPICallResult>(
-                this, 'admin.conversations.unarchive'),
+                this,
+                "admin.conversations.unarchive",
+            ),
         },
         emoji: {
-            add: bindApiCall<AdminEmojiAddArguments, WebAPICallResult>(this, 'admin.emoji.add'),
-            addAlias: bindApiCall<AdminEmojiAddAliasArguments, WebAPICallResult>(this, 'admin.emoji.addAlias'),
-            list: bindApiCall<AdminEmojiListArguments, WebAPICallResult>(this, 'admin.emoji.list'),
-            remove: bindApiCall<AdminEmojiRemoveArguments, WebAPICallResult>(this, 'admin.emoji.remove'),
-            rename: bindApiCall<AdminEmojiRenameArguments, WebAPICallResult>(this, 'admin.emoji.rename'),
+            add: bindApiCall<AdminEmojiAddArguments, WebAPICallResult>(this, "admin.emoji.add"),
+            addAlias: bindApiCall<AdminEmojiAddAliasArguments, WebAPICallResult>(this, "admin.emoji.addAlias"),
+            list: bindApiCall<AdminEmojiListArguments, WebAPICallResult>(this, "admin.emoji.list"),
+            remove: bindApiCall<AdminEmojiRemoveArguments, WebAPICallResult>(this, "admin.emoji.remove"),
+            rename: bindApiCall<AdminEmojiRenameArguments, WebAPICallResult>(this, "admin.emoji.rename"),
         },
         inviteRequests: {
             approve: bindApiCall<AdminInviteRequestsApproveArguments, WebAPICallResult>(
-                this, 'admin.inviteRequests.approve'),
+                this,
+                "admin.inviteRequests.approve",
+            ),
             approved: {
                 list: bindApiCall<AdminInviteRequestsApprovedListArguments, WebAPICallResult>(
-                    this, 'admin.inviteRequests.approved.list'),
+                    this,
+                    "admin.inviteRequests.approved.list",
+                ),
             },
             denied: {
                 list: bindApiCall<AdminInviteRequestsDeniedListArguments, WebAPICallResult>(
-                    this, 'admin.inviteRequests.denied.list'),
+                    this,
+                    "admin.inviteRequests.denied.list",
+                ),
             },
-            deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
-            list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
+            deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, "admin.inviteRequests.deny"),
+            list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, "admin.inviteRequests.list"),
         },
         teams: {
             admins: {
-                list: bindApiCall<AdminTeamsAdminsListArguments, WebAPICallResult>(this, 'admin.teams.admins.list'),
+                list: bindApiCall<AdminTeamsAdminsListArguments, WebAPICallResult>(this, "admin.teams.admins.list"),
             },
-            create: bindApiCall<AdminTeamsCreateArguments, WebAPICallResult>(this, 'admin.teams.create'),
-            list: bindApiCall<AdminTeamsListArguments, WebAPICallResult>(this, 'admin.teams.list'),
+            create: bindApiCall<AdminTeamsCreateArguments, WebAPICallResult>(this, "admin.teams.create"),
+            list: bindApiCall<AdminTeamsListArguments, WebAPICallResult>(this, "admin.teams.list"),
             owners: {
-                list: bindApiCall<AdminTeamsOwnersListArguments, WebAPICallResult>(this, 'admin.teams.owners.list'),
+                list: bindApiCall<AdminTeamsOwnersListArguments, WebAPICallResult>(this, "admin.teams.owners.list"),
             },
             settings: {
-                info: bindApiCall<AdminTeamsSettingsInfoArguments, WebAPICallResult>(this, 'admin.teams.settings.info'),
+                info: bindApiCall<AdminTeamsSettingsInfoArguments, WebAPICallResult>(this, "admin.teams.settings.info"),
                 setDefaultChannels: bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, WebAPICallResult>(
-                    this, 'admin.teams.settings.setDefaultChannels'),
+                    this,
+                    "admin.teams.settings.setDefaultChannels",
+                ),
                 setDescription: bindApiCall<AdminTeamsSettingsSetDescriptionArguments, WebAPICallResult>(
-                    this, 'admin.teams.settings.setDescription'),
+                    this,
+                    "admin.teams.settings.setDescription",
+                ),
                 setDiscoverability: bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments, WebAPICallResult>(
-                    this, 'admin.teams.settings.setDiscoverability'),
+                    this,
+                    "admin.teams.settings.setDiscoverability",
+                ),
                 setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, WebAPICallResult>(
-                    this, 'admin.teams.settings.setIcon'),
+                    this,
+                    "admin.teams.settings.setIcon",
+                ),
                 setName: bindApiCall<AdminTeamsSettingsSetNameArguments, WebAPICallResult>(
-                    this, 'admin.teams.settings.setName'),
+                    this,
+                    "admin.teams.settings.setName",
+                ),
             },
         },
         usergroups: {
             addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, WebAPICallResult>(
-                this, 'admin.usergroups.addChannels'),
+                this,
+                "admin.usergroups.addChannels",
+            ),
             addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, WebAPICallResult>(
-                this, 'admin.usergroups.addTeams'),
+                this,
+                "admin.usergroups.addTeams",
+            ),
             listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
-                this, 'admin.usergroups.listChannels'),
+                this,
+                "admin.usergroups.listChannels",
+            ),
             removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
-                this, 'admin.usergroups.removeChannels'),
+                this,
+                "admin.usergroups.removeChannels",
+            ),
         },
         users: {
-            assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, 'admin.users.assign'),
-            invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, 'admin.users.invite'),
-            list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
-            remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
+            assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, "admin.users.assign"),
+            invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, "admin.users.invite"),
+            list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, "admin.users.list"),
+            remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, "admin.users.remove"),
             session: {
-                list: bindApiCall<AdminUsersSessionListArguments, WebAPICallResult>(this, 'admin.users.session.list'),
-                reset: bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
+                list: bindApiCall<AdminUsersSessionListArguments, WebAPICallResult>(this, "admin.users.session.list"),
+                reset: bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(
+                    this,
+                    "admin.users.session.reset",
+                ),
                 invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, WebAPICallResult>(
-                    this, 'admin.users.session.invalidate'),
+                    this,
+                    "admin.users.session.invalidate",
+                ),
             },
-            setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, 'admin.users.setAdmin'),
-            setExpiration:
-                bindApiCall<AdminUsersSetExpirationArguments, WebAPICallResult>(this, 'admin.users.setExpiration'),
-            setOwner: bindApiCall<AdminUsersSetOwnerArguments, WebAPICallResult>(this, 'admin.users.setOwner'),
-            setRegular: bindApiCall<AdminUsersSetRegularArguments, WebAPICallResult>(this, 'admin.users.setRegular'),
+            setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, "admin.users.setAdmin"),
+            setExpiration: bindApiCall<AdminUsersSetExpirationArguments, WebAPICallResult>(
+                this,
+                "admin.users.setExpiration",
+            ),
+            setOwner: bindApiCall<AdminUsersSetOwnerArguments, WebAPICallResult>(this, "admin.users.setOwner"),
+            setRegular: bindApiCall<AdminUsersSetRegularArguments, WebAPICallResult>(this, "admin.users.setRegular"),
         },
     }
 
     public readonly api = {
-        test: bindApiCall<WebAPICallOptions, WebAPICallResult>(this, 'api.test'),
+        test: bindApiCall<WebAPICallOptions, WebAPICallResult>(this, "api.test"),
     }
 
     public readonly apps = {
         connections: {
-            open: bindApiCall<WebAPICallOptions, WebAPICallResult>(this, 'apps.connections.open'),
+            open: bindApiCall<WebAPICallOptions, WebAPICallResult>(this, "apps.connections.open"),
         },
         event: {
             authorizations: {
                 list: bindApiCall<AppsEventAuthorizationsListArguments, WebAPICallResult>(
-                    this, 'apps.event.authorizations.list'),
+                    this,
+                    "apps.event.authorizations.list",
+                ),
             },
         },
-        uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall'),
+        uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, "apps.uninstall"),
     }
 
     public readonly auth = {
-        revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
+        revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, "auth.revoke"),
         teams: {
-            list: bindApiCall<AuthTeamsListArguments, WebAPICallResult>(this, 'auth.teams.list'),
+            list: bindApiCall<AuthTeamsListArguments, WebAPICallResult>(this, "auth.teams.list"),
         },
-        test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
+        test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, "auth.test"),
     }
 
     public readonly bots = {
-        info: bindApiCall<BotsInfoArguments, WebAPICallResult>(this, 'bots.info'),
+        info: bindApiCall<BotsInfoArguments, WebAPICallResult>(this, "bots.info"),
     }
 
     public readonly calls = {
-        add: bindApiCall<CallsAddArguments, WebAPICallResult>(this, 'calls.add'),
-        end: bindApiCall<CallsEndArguments, WebAPICallResult>(this, 'calls.end'),
-        info: bindApiCall<CallsInfoArguments, WebAPICallResult>(this, 'calls.info'),
-        update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
+        add: bindApiCall<CallsAddArguments, WebAPICallResult>(this, "calls.add"),
+        end: bindApiCall<CallsEndArguments, WebAPICallResult>(this, "calls.end"),
+        info: bindApiCall<CallsInfoArguments, WebAPICallResult>(this, "calls.info"),
+        update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, "calls.update"),
         participants: {
-            add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
-            remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, 'calls.participants.remove'),
+            add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, "calls.participants.add"),
+            remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, "calls.participants.remove"),
         },
     }
 
     public readonly channels = {
-        archive: bindApiCall<ChannelsArchiveArguments, WebAPICallResult>(this, 'channels.archive'),
-        create: bindApiCall<ChannelsCreateArguments, WebAPICallResult>(this, 'channels.create'),
-        history: bindApiCall<ChannelsHistoryArguments, WebAPICallResult>(this, 'channels.history'),
-        info: bindApiCall<ChannelsInfoArguments, WebAPICallResult>(this, 'channels.info'),
-        invite: bindApiCall<ChannelsInviteArguments, WebAPICallResult>(this, 'channels.invite'),
-        join: bindApiCall<ChannelsJoinArguments, WebAPICallResult>(this, 'channels.join'),
-        kick: bindApiCall<ChannelsKickArguments, WebAPICallResult>(this, 'channels.kick'),
-        leave: bindApiCall<ChannelsLeaveArguments, WebAPICallResult>(this, 'channels.leave'),
-        list: bindApiCall<ChannelsListArguments, WebAPICallResult>(this, 'channels.list'),
-        mark: bindApiCall<ChannelsMarkArguments, WebAPICallResult>(this, 'channels.mark'),
-        rename: bindApiCall<ChannelsRenameArguments, WebAPICallResult>(this, 'channels.rename'),
-        replies: bindApiCall<ChannelsRepliesArguments, WebAPICallResult>(this, 'channels.replies'),
-        setPurpose: bindApiCall<ChannelsSetPurposeArguments, WebAPICallResult>(this, 'channels.setPurpose'),
-        setTopic: bindApiCall<ChannelsSetTopicArguments, WebAPICallResult>(this, 'channels.setTopic'),
-        unarchive: bindApiCall<ChannelsUnarchiveArguments, WebAPICallResult>(this, 'channels.unarchive'),
+        archive: bindApiCall<ChannelsArchiveArguments, WebAPICallResult>(this, "channels.archive"),
+        create: bindApiCall<ChannelsCreateArguments, WebAPICallResult>(this, "channels.create"),
+        history: bindApiCall<ChannelsHistoryArguments, WebAPICallResult>(this, "channels.history"),
+        info: bindApiCall<ChannelsInfoArguments, WebAPICallResult>(this, "channels.info"),
+        invite: bindApiCall<ChannelsInviteArguments, WebAPICallResult>(this, "channels.invite"),
+        join: bindApiCall<ChannelsJoinArguments, WebAPICallResult>(this, "channels.join"),
+        kick: bindApiCall<ChannelsKickArguments, WebAPICallResult>(this, "channels.kick"),
+        leave: bindApiCall<ChannelsLeaveArguments, WebAPICallResult>(this, "channels.leave"),
+        list: bindApiCall<ChannelsListArguments, WebAPICallResult>(this, "channels.list"),
+        mark: bindApiCall<ChannelsMarkArguments, WebAPICallResult>(this, "channels.mark"),
+        rename: bindApiCall<ChannelsRenameArguments, WebAPICallResult>(this, "channels.rename"),
+        replies: bindApiCall<ChannelsRepliesArguments, WebAPICallResult>(this, "channels.replies"),
+        setPurpose: bindApiCall<ChannelsSetPurposeArguments, WebAPICallResult>(this, "channels.setPurpose"),
+        setTopic: bindApiCall<ChannelsSetTopicArguments, WebAPICallResult>(this, "channels.setTopic"),
+        unarchive: bindApiCall<ChannelsUnarchiveArguments, WebAPICallResult>(this, "channels.unarchive"),
     }
 
     public readonly chat = {
-        delete: bindApiCall<ChatDeleteArguments, WebAPICallResult>(this, 'chat.delete'),
-        deleteScheduledMessage:
-            bindApiCall<ChatDeleteScheduledMessageArguments, WebAPICallResult>(this, 'chat.deleteScheduledMessage'),
-        getPermalink: bindApiCall<ChatGetPermalinkArguments, WebAPICallResult>(this, 'chat.getPermalink'),
-        meMessage: bindApiCall<ChatMeMessageArguments, WebAPICallResult>(this, 'chat.meMessage'),
-        postEphemeral: bindApiCall<ChatPostEphemeralArguments, WebAPICallResult>(this, 'chat.postEphemeral'),
-        postMessage: bindApiCall<ChatPostMessageArguments, WebAPICallResult>(this, 'chat.postMessage'),
-        scheduleMessage: bindApiCall<ChatScheduleMessageArguments, WebAPICallResult>(this, 'chat.scheduleMessage'),
+        delete: bindApiCall<ChatDeleteArguments, WebAPICallResult>(this, "chat.delete"),
+        deleteScheduledMessage: bindApiCall<ChatDeleteScheduledMessageArguments, WebAPICallResult>(
+            this,
+            "chat.deleteScheduledMessage",
+        ),
+        getPermalink: bindApiCall<ChatGetPermalinkArguments, WebAPICallResult>(this, "chat.getPermalink"),
+        meMessage: bindApiCall<ChatMeMessageArguments, WebAPICallResult>(this, "chat.meMessage"),
+        postEphemeral: bindApiCall<ChatPostEphemeralArguments, WebAPICallResult>(this, "chat.postEphemeral"),
+        postMessage: bindApiCall<ChatPostMessageArguments, WebAPICallResult>(this, "chat.postMessage"),
+        scheduleMessage: bindApiCall<ChatScheduleMessageArguments, WebAPICallResult>(this, "chat.scheduleMessage"),
         scheduledMessages: {
-            list:
-                bindApiCall<ChatScheduledMessagesListArguments, WebAPICallResult>(this, 'chat.scheduledMessages.list'),
+            list: bindApiCall<ChatScheduledMessagesListArguments, WebAPICallResult>(
+                this,
+                "chat.scheduledMessages.list",
+            ),
         },
-        unfurl: bindApiCall<ChatUnfurlArguments, WebAPICallResult>(this, 'chat.unfurl'),
-        update: bindApiCall<ChatUpdateArguments, WebAPICallResult>(this, 'chat.update'),
+        unfurl: bindApiCall<ChatUnfurlArguments, WebAPICallResult>(this, "chat.unfurl"),
+        update: bindApiCall<ChatUpdateArguments, WebAPICallResult>(this, "chat.update"),
     }
 
     public readonly conversations = {
-        archive: bindApiCall<ConversationsArchiveArguments, WebAPICallResult>(this, 'conversations.archive'),
-        close: bindApiCall<ConversationsCloseArguments, WebAPICallResult>(this, 'conversations.close'),
-        create: bindApiCall<ConversationsCreateArguments, WebAPICallResult>(this, 'conversations.create'),
-        history: bindApiCall<ConversationsHistoryArguments, WebAPICallResult>(this, 'conversations.history'),
-        info: bindApiCall<ConversationsInfoArguments, WebAPICallResult>(this, 'conversations.info'),
-        invite: bindApiCall<ConversationsInviteArguments, WebAPICallResult>(this, 'conversations.invite'),
-        join: bindApiCall<ConversationsJoinArguments, WebAPICallResult>(this, 'conversations.join'),
-        kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, 'conversations.kick'),
-        leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, 'conversations.leave'),
-        list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, 'conversations.list'),
-        mark: bindApiCall<ConversationsMarkArguments, WebAPICallResult>(this, 'conversations.mark'),
-        members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, 'conversations.members'),
-        open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, 'conversations.open'),
-        rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, 'conversations.rename'),
-        replies: bindApiCall<ConversationsRepliesArguments, WebAPICallResult>(this, 'conversations.replies'),
-        setPurpose:
-            bindApiCall<ConversationsSetPurposeArguments, WebAPICallResult>(this, 'conversations.setPurpose'),
-        setTopic: bindApiCall<ConversationsSetTopicArguments, WebAPICallResult>(this, 'conversations.setTopic'),
-        unarchive: bindApiCall<ConversationsUnarchiveArguments, WebAPICallResult>(this, 'conversations.unarchive'),
+        archive: bindApiCall<ConversationsArchiveArguments, WebAPICallResult>(this, "conversations.archive"),
+        close: bindApiCall<ConversationsCloseArguments, WebAPICallResult>(this, "conversations.close"),
+        create: bindApiCall<ConversationsCreateArguments, WebAPICallResult>(this, "conversations.create"),
+        history: bindApiCall<ConversationsHistoryArguments, WebAPICallResult>(this, "conversations.history"),
+        info: bindApiCall<ConversationsInfoArguments, WebAPICallResult>(this, "conversations.info"),
+        invite: bindApiCall<ConversationsInviteArguments, WebAPICallResult>(this, "conversations.invite"),
+        join: bindApiCall<ConversationsJoinArguments, WebAPICallResult>(this, "conversations.join"),
+        kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, "conversations.kick"),
+        leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, "conversations.leave"),
+        list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, "conversations.list"),
+        mark: bindApiCall<ConversationsMarkArguments, WebAPICallResult>(this, "conversations.mark"),
+        members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, "conversations.members"),
+        open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, "conversations.open"),
+        rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, "conversations.rename"),
+        replies: bindApiCall<ConversationsRepliesArguments, WebAPICallResult>(this, "conversations.replies"),
+        setPurpose: bindApiCall<ConversationsSetPurposeArguments, WebAPICallResult>(this, "conversations.setPurpose"),
+        setTopic: bindApiCall<ConversationsSetTopicArguments, WebAPICallResult>(this, "conversations.setTopic"),
+        unarchive: bindApiCall<ConversationsUnarchiveArguments, WebAPICallResult>(this, "conversations.unarchive"),
     }
 
     public readonly views = {
-        open: bindApiCall<ViewsOpenArguments, WebAPICallResult>(this, 'views.open'),
-        publish: bindApiCall<ViewsPublishArguments, WebAPICallResult>(this, 'views.publish'),
-        push: bindApiCall<ViewsPushArguments, WebAPICallResult>(this, 'views.push'),
-        update: bindApiCall<ViewsUpdateArguments, WebAPICallResult>(this, 'views.update'),
+        open: bindApiCall<ViewsOpenArguments, WebAPICallResult>(this, "views.open"),
+        publish: bindApiCall<ViewsPublishArguments, WebAPICallResult>(this, "views.publish"),
+        push: bindApiCall<ViewsPushArguments, WebAPICallResult>(this, "views.push"),
+        update: bindApiCall<ViewsUpdateArguments, WebAPICallResult>(this, "views.update"),
     }
 
     public readonly dialog = {
-        open: bindApiCall<DialogOpenArguments, WebAPICallResult>(this, 'dialog.open'),
+        open: bindApiCall<DialogOpenArguments, WebAPICallResult>(this, "dialog.open"),
     }
 
     public readonly dnd = {
-        endDnd: bindApiCall<DndEndDndArguments, WebAPICallResult>(this, 'dnd.endDnd'),
-        endSnooze: bindApiCall<DndEndSnoozeArguments, WebAPICallResult>(this, 'dnd.endSnooze'),
-        info: bindApiCall<DndInfoArguments, WebAPICallResult>(this, 'dnd.info'),
-        setSnooze: bindApiCall<DndSetSnoozeArguments, WebAPICallResult>(this, 'dnd.setSnooze'),
-        teamInfo: bindApiCall<DndTeamInfoArguments, WebAPICallResult>(this, 'dnd.teamInfo'),
+        endDnd: bindApiCall<DndEndDndArguments, WebAPICallResult>(this, "dnd.endDnd"),
+        endSnooze: bindApiCall<DndEndSnoozeArguments, WebAPICallResult>(this, "dnd.endSnooze"),
+        info: bindApiCall<DndInfoArguments, WebAPICallResult>(this, "dnd.info"),
+        setSnooze: bindApiCall<DndSetSnoozeArguments, WebAPICallResult>(this, "dnd.setSnooze"),
+        teamInfo: bindApiCall<DndTeamInfoArguments, WebAPICallResult>(this, "dnd.teamInfo"),
     }
 
     public readonly emoji = {
-        list: bindApiCall<EmojiListArguments, WebAPICallResult>(this, 'emoji.list'),
+        list: bindApiCall<EmojiListArguments, WebAPICallResult>(this, "emoji.list"),
     }
 
     public readonly files = {
-        delete: bindApiCall<FilesDeleteArguments, WebAPICallResult>(this, 'files.delete'),
-        info: bindApiCall<FilesInfoArguments, WebAPICallResult>(this, 'files.info'),
-        list: bindApiCall<FilesListArguments, WebAPICallResult>(this, 'files.list'),
-        revokePublicURL:
-            bindApiCall<FilesRevokePublicURLArguments, WebAPICallResult>(this, 'files.revokePublicURL'),
-        sharedPublicURL:
-            bindApiCall<FilesSharedPublicURLArguments, WebAPICallResult>(this, 'files.sharedPublicURL'),
-        upload: bindApiCall<FilesUploadArguments, WebAPICallResult>(this, 'files.upload'),
+        delete: bindApiCall<FilesDeleteArguments, WebAPICallResult>(this, "files.delete"),
+        info: bindApiCall<FilesInfoArguments, WebAPICallResult>(this, "files.info"),
+        list: bindApiCall<FilesListArguments, WebAPICallResult>(this, "files.list"),
+        revokePublicURL: bindApiCall<FilesRevokePublicURLArguments, WebAPICallResult>(this, "files.revokePublicURL"),
+        sharedPublicURL: bindApiCall<FilesSharedPublicURLArguments, WebAPICallResult>(this, "files.sharedPublicURL"),
+        upload: bindApiCall<FilesUploadArguments, WebAPICallResult>(this, "files.upload"),
         comments: {
-            delete: bindApiCall<FilesCommentsDeleteArguments, WebAPICallResult>(this, 'files.comments.delete'),
+            delete: bindApiCall<FilesCommentsDeleteArguments, WebAPICallResult>(this, "files.comments.delete"),
         },
         remote: {
-            info: bindApiCall<FilesRemoteInfoArguments, WebAPICallResult>(this, 'files.remote.info'),
-            list: bindApiCall<FilesRemoteListArguments, WebAPICallResult>(this, 'files.remote.list'),
-            add: bindApiCall<FilesRemoteAddArguments, WebAPICallResult>(this, 'files.remote.add'),
-            update: bindApiCall<FilesRemoteUpdateArguments, WebAPICallResult>(this, 'files.remote.update'),
-            remove: bindApiCall<FilesRemoteRemoveArguments, WebAPICallResult>(this, 'files.remote.remove'),
-            share: bindApiCall<FilesRemoteShareArguments, WebAPICallResult>(this, 'files.remote.share'),
+            info: bindApiCall<FilesRemoteInfoArguments, WebAPICallResult>(this, "files.remote.info"),
+            list: bindApiCall<FilesRemoteListArguments, WebAPICallResult>(this, "files.remote.list"),
+            add: bindApiCall<FilesRemoteAddArguments, WebAPICallResult>(this, "files.remote.add"),
+            update: bindApiCall<FilesRemoteUpdateArguments, WebAPICallResult>(this, "files.remote.update"),
+            remove: bindApiCall<FilesRemoteRemoveArguments, WebAPICallResult>(this, "files.remote.remove"),
+            share: bindApiCall<FilesRemoteShareArguments, WebAPICallResult>(this, "files.remote.share"),
         },
     }
 
     public readonly groups = {
-        archive: bindApiCall<GroupsArchiveArguments, WebAPICallResult>(this, 'groups.archive'),
-        create: bindApiCall<GroupsCreateArguments, WebAPICallResult>(this, 'groups.create'),
-        createChild: bindApiCall<GroupsCreateChildArguments, WebAPICallResult>(this, 'groups.createChild'),
-        history: bindApiCall<GroupsHistoryArguments, WebAPICallResult>(this, 'groups.history'),
-        info: bindApiCall<GroupsInfoArguments, WebAPICallResult>(this, 'groups.info'),
-        invite: bindApiCall<GroupsInviteArguments, WebAPICallResult>(this, 'groups.invite'),
-        kick: bindApiCall<GroupsKickArguments, WebAPICallResult>(this, 'groups.kick'),
-        leave: bindApiCall<GroupsLeaveArguments, WebAPICallResult>(this, 'groups.leave'),
-        list: bindApiCall<GroupsListArguments, WebAPICallResult>(this, 'groups.list'),
-        mark: bindApiCall<GroupsMarkArguments, WebAPICallResult>(this, 'groups.mark'),
-        open: bindApiCall<GroupsOpenArguments, WebAPICallResult>(this, 'groups.open'),
-        rename: bindApiCall<GroupsRenameArguments, WebAPICallResult>(this, 'groups.rename'),
-        replies: bindApiCall<GroupsRepliesArguments, WebAPICallResult>(this, 'groups.replies'),
-        setPurpose: bindApiCall<GroupsSetPurposeArguments, WebAPICallResult>(this, 'groups.setPurpose'),
-        setTopic: bindApiCall<GroupsSetTopicArguments, WebAPICallResult>(this, 'groups.setTopic'),
-        unarchive: bindApiCall<GroupsUnarchiveArguments, WebAPICallResult>(this, 'groups.unarchive'),
+        archive: bindApiCall<GroupsArchiveArguments, WebAPICallResult>(this, "groups.archive"),
+        create: bindApiCall<GroupsCreateArguments, WebAPICallResult>(this, "groups.create"),
+        createChild: bindApiCall<GroupsCreateChildArguments, WebAPICallResult>(this, "groups.createChild"),
+        history: bindApiCall<GroupsHistoryArguments, WebAPICallResult>(this, "groups.history"),
+        info: bindApiCall<GroupsInfoArguments, WebAPICallResult>(this, "groups.info"),
+        invite: bindApiCall<GroupsInviteArguments, WebAPICallResult>(this, "groups.invite"),
+        kick: bindApiCall<GroupsKickArguments, WebAPICallResult>(this, "groups.kick"),
+        leave: bindApiCall<GroupsLeaveArguments, WebAPICallResult>(this, "groups.leave"),
+        list: bindApiCall<GroupsListArguments, WebAPICallResult>(this, "groups.list"),
+        mark: bindApiCall<GroupsMarkArguments, WebAPICallResult>(this, "groups.mark"),
+        open: bindApiCall<GroupsOpenArguments, WebAPICallResult>(this, "groups.open"),
+        rename: bindApiCall<GroupsRenameArguments, WebAPICallResult>(this, "groups.rename"),
+        replies: bindApiCall<GroupsRepliesArguments, WebAPICallResult>(this, "groups.replies"),
+        setPurpose: bindApiCall<GroupsSetPurposeArguments, WebAPICallResult>(this, "groups.setPurpose"),
+        setTopic: bindApiCall<GroupsSetTopicArguments, WebAPICallResult>(this, "groups.setTopic"),
+        unarchive: bindApiCall<GroupsUnarchiveArguments, WebAPICallResult>(this, "groups.unarchive"),
     }
 
     public readonly im = {
-        close: bindApiCall<IMCloseArguments, WebAPICallResult>(this, 'im.close'),
-        history: bindApiCall<IMHistoryArguments, WebAPICallResult>(this, 'im.history'),
-        list: bindApiCall<IMListArguments, WebAPICallResult>(this, 'im.list'),
-        mark: bindApiCall<IMMarkArguments, WebAPICallResult>(this, 'im.mark'),
-        open: bindApiCall<IMOpenArguments, WebAPICallResult>(this, 'im.open'),
-        replies: bindApiCall<IMRepliesArguments, WebAPICallResult>(this, 'im.replies'),
+        close: bindApiCall<IMCloseArguments, WebAPICallResult>(this, "im.close"),
+        history: bindApiCall<IMHistoryArguments, WebAPICallResult>(this, "im.history"),
+        list: bindApiCall<IMListArguments, WebAPICallResult>(this, "im.list"),
+        mark: bindApiCall<IMMarkArguments, WebAPICallResult>(this, "im.mark"),
+        open: bindApiCall<IMOpenArguments, WebAPICallResult>(this, "im.open"),
+        replies: bindApiCall<IMRepliesArguments, WebAPICallResult>(this, "im.replies"),
     }
 
     public readonly migration = {
-        exchange: bindApiCall<MigrationExchangeArguments, WebAPICallResult>(this, 'migration.exchange'),
+        exchange: bindApiCall<MigrationExchangeArguments, WebAPICallResult>(this, "migration.exchange"),
     }
 
     public readonly mpim = {
-        close: bindApiCall<MPIMCloseArguments, WebAPICallResult>(this, 'mpim.close'),
-        history: bindApiCall<MPIMHistoryArguments, WebAPICallResult>(this, 'mpim.history'),
-        list: bindApiCall<MPIMListArguments, WebAPICallResult>(this, 'mpim.list'),
-        mark: bindApiCall<MPIMMarkArguments, WebAPICallResult>(this, 'mpim.mark'),
-        open: bindApiCall<MPIMOpenArguments, WebAPICallResult>(this, 'mpim.open'),
-        replies: bindApiCall<MPIMRepliesArguments, WebAPICallResult>(this, 'mpim.replies'),
+        close: bindApiCall<MPIMCloseArguments, WebAPICallResult>(this, "mpim.close"),
+        history: bindApiCall<MPIMHistoryArguments, WebAPICallResult>(this, "mpim.history"),
+        list: bindApiCall<MPIMListArguments, WebAPICallResult>(this, "mpim.list"),
+        mark: bindApiCall<MPIMMarkArguments, WebAPICallResult>(this, "mpim.mark"),
+        open: bindApiCall<MPIMOpenArguments, WebAPICallResult>(this, "mpim.open"),
+        replies: bindApiCall<MPIMRepliesArguments, WebAPICallResult>(this, "mpim.replies"),
     }
 
     public readonly oauth = {
-        access: bindApiCall<OAuthAccessArguments, WebAPICallResult>(this, 'oauth.access'),
+        access: bindApiCall<OAuthAccessArguments, WebAPICallResult>(this, "oauth.access"),
         v2: {
-            access: bindApiCall<OAuthV2AccessArguments, WebAPICallResult>(this, 'oauth.v2.access'),
+            access: bindApiCall<OAuthV2AccessArguments, WebAPICallResult>(this, "oauth.v2.access"),
         },
     }
 
     public readonly pins = {
-        add: bindApiCall<PinsAddArguments, WebAPICallResult>(this, 'pins.add'),
-        list: bindApiCall<PinsListArguments, WebAPICallResult>(this, 'pins.list'),
-        remove: bindApiCall<PinsRemoveArguments, WebAPICallResult>(this, 'pins.remove'),
+        add: bindApiCall<PinsAddArguments, WebAPICallResult>(this, "pins.add"),
+        list: bindApiCall<PinsListArguments, WebAPICallResult>(this, "pins.list"),
+        remove: bindApiCall<PinsRemoveArguments, WebAPICallResult>(this, "pins.remove"),
     }
 
     public readonly reactions = {
-        add: bindApiCall<ReactionsAddArguments, WebAPICallResult>(this, 'reactions.add'),
-        get: bindApiCall<ReactionsGetArguments, WebAPICallResult>(this, 'reactions.get'),
-        list: bindApiCall<ReactionsListArguments, WebAPICallResult>(this, 'reactions.list'),
-        remove: bindApiCall<ReactionsRemoveArguments, WebAPICallResult>(this, 'reactions.remove'),
+        add: bindApiCall<ReactionsAddArguments, WebAPICallResult>(this, "reactions.add"),
+        get: bindApiCall<ReactionsGetArguments, WebAPICallResult>(this, "reactions.get"),
+        list: bindApiCall<ReactionsListArguments, WebAPICallResult>(this, "reactions.list"),
+        remove: bindApiCall<ReactionsRemoveArguments, WebAPICallResult>(this, "reactions.remove"),
     }
 
     public readonly reminders = {
-        add: bindApiCall<RemindersAddArguments, WebAPICallResult>(this, 'reminders.add'),
-        complete: bindApiCall<RemindersCompleteArguments, WebAPICallResult>(this, 'reminders.complete'),
-        delete: bindApiCall<RemindersDeleteArguments, WebAPICallResult>(this, 'reminders.delete'),
-        info: bindApiCall<RemindersInfoArguments, WebAPICallResult>(this, 'reminders.info'),
-        list: bindApiCall<RemindersListArguments, WebAPICallResult>(this, 'reminders.list'),
+        add: bindApiCall<RemindersAddArguments, WebAPICallResult>(this, "reminders.add"),
+        complete: bindApiCall<RemindersCompleteArguments, WebAPICallResult>(this, "reminders.complete"),
+        delete: bindApiCall<RemindersDeleteArguments, WebAPICallResult>(this, "reminders.delete"),
+        info: bindApiCall<RemindersInfoArguments, WebAPICallResult>(this, "reminders.info"),
+        list: bindApiCall<RemindersListArguments, WebAPICallResult>(this, "reminders.list"),
     }
 
     public readonly rtm = {
-        connect: bindApiCall<RTMConnectArguments, WebAPICallResult>(this, 'rtm.connect'),
-        start: bindApiCall<RTMStartArguments, WebAPICallResult>(this, 'rtm.start'),
+        connect: bindApiCall<RTMConnectArguments, WebAPICallResult>(this, "rtm.connect"),
+        start: bindApiCall<RTMStartArguments, WebAPICallResult>(this, "rtm.start"),
     }
 
     public readonly search = {
-        all: bindApiCall<SearchAllArguments, WebAPICallResult>(this, 'search.all'),
-        files: bindApiCall<SearchFilesArguments, WebAPICallResult>(this, 'search.files'),
-        messages: bindApiCall<SearchMessagesArguments, WebAPICallResult>(this, 'search.messages'),
+        all: bindApiCall<SearchAllArguments, WebAPICallResult>(this, "search.all"),
+        files: bindApiCall<SearchFilesArguments, WebAPICallResult>(this, "search.files"),
+        messages: bindApiCall<SearchMessagesArguments, WebAPICallResult>(this, "search.messages"),
     }
 
     public readonly stars = {
-        add: bindApiCall<StarsAddArguments, WebAPICallResult>(this, 'stars.add'),
-        list: bindApiCall<StarsListArguments, WebAPICallResult>(this, 'stars.list'),
-        remove: bindApiCall<StarsRemoveArguments, WebAPICallResult>(this, 'stars.remove'),
+        add: bindApiCall<StarsAddArguments, WebAPICallResult>(this, "stars.add"),
+        list: bindApiCall<StarsListArguments, WebAPICallResult>(this, "stars.list"),
+        remove: bindApiCall<StarsRemoveArguments, WebAPICallResult>(this, "stars.remove"),
     }
 
     public readonly team = {
-        accessLogs: bindApiCall<TeamAccessLogsArguments, WebAPICallResult>(this, 'team.accessLogs'),
-        billableInfo: bindApiCall<TeamBillableInfoArguments, WebAPICallResult>(this, 'team.billableInfo'),
-        info: bindApiCall<TeamInfoArguments, WebAPICallResult>(this, 'team.info'),
-        integrationLogs: bindApiCall<TeamIntegrationLogsArguments, WebAPICallResult>(this, 'team.integrationLogs'),
+        accessLogs: bindApiCall<TeamAccessLogsArguments, WebAPICallResult>(this, "team.accessLogs"),
+        billableInfo: bindApiCall<TeamBillableInfoArguments, WebAPICallResult>(this, "team.billableInfo"),
+        info: bindApiCall<TeamInfoArguments, WebAPICallResult>(this, "team.info"),
+        integrationLogs: bindApiCall<TeamIntegrationLogsArguments, WebAPICallResult>(this, "team.integrationLogs"),
         profile: {
-            get: bindApiCall<TeamProfileGetArguments, WebAPICallResult>(this, 'team.profile.get'),
+            get: bindApiCall<TeamProfileGetArguments, WebAPICallResult>(this, "team.profile.get"),
         },
     }
 
     public readonly usergroups = {
-        create: bindApiCall<UsergroupsCreateArguments, WebAPICallResult>(this, 'usergroups.create'),
-        disable: bindApiCall<UsergroupsDisableArguments, WebAPICallResult>(this, 'usergroups.disable'),
-        enable: bindApiCall<UsergroupsEnableArguments, WebAPICallResult>(this, 'usergroups.enable'),
-        list: bindApiCall<UsergroupsListArguments, WebAPICallResult>(this, 'usergroups.list'),
-        update: bindApiCall<UsergroupsUpdateArguments, WebAPICallResult>(this, 'usergroups.update'),
+        create: bindApiCall<UsergroupsCreateArguments, WebAPICallResult>(this, "usergroups.create"),
+        disable: bindApiCall<UsergroupsDisableArguments, WebAPICallResult>(this, "usergroups.disable"),
+        enable: bindApiCall<UsergroupsEnableArguments, WebAPICallResult>(this, "usergroups.enable"),
+        list: bindApiCall<UsergroupsListArguments, WebAPICallResult>(this, "usergroups.list"),
+        update: bindApiCall<UsergroupsUpdateArguments, WebAPICallResult>(this, "usergroups.update"),
         users: {
-            list: bindApiCall<UsergroupsUsersListArguments, WebAPICallResult>(this, 'usergroups.users.list'),
-            update: bindApiCall<UsergroupsUsersUpdateArguments, WebAPICallResult>(this, 'usergroups.users.update'),
+            list: bindApiCall<UsergroupsUsersListArguments, WebAPICallResult>(this, "usergroups.users.list"),
+            update: bindApiCall<UsergroupsUsersUpdateArguments, WebAPICallResult>(this, "usergroups.users.update"),
         },
     }
 
     public readonly users = {
-        conversations: bindApiCall<UsersConversationsArguments, WebAPICallResult>(this, 'users.conversations'),
-        deletePhoto: bindApiCall<UsersDeletePhotoArguments, WebAPICallResult>(this, 'users.deletePhoto'),
-        getPresence: bindApiCall<UsersGetPresenceArguments, WebAPICallResult>(this, 'users.getPresence'),
-        identity: bindApiCall<UsersIdentityArguments, WebAPICallResult>(this, 'users.identity'),
-        info: bindApiCall<UsersInfoArguments, WebAPICallResult>(this, 'users.info'),
-        list: bindApiCall<UsersListArguments, WebAPICallResult>(this, 'users.list'),
-        lookupByEmail: bindApiCall<UsersLookupByEmailArguments, WebAPICallResult>(this, 'users.lookupByEmail'),
-        setPhoto: bindApiCall<UsersSetPhotoArguments, WebAPICallResult>(this, 'users.setPhoto'),
-        setPresence: bindApiCall<UsersSetPresenceArguments, WebAPICallResult>(this, 'users.setPresence'),
+        conversations: bindApiCall<UsersConversationsArguments, WebAPICallResult>(this, "users.conversations"),
+        deletePhoto: bindApiCall<UsersDeletePhotoArguments, WebAPICallResult>(this, "users.deletePhoto"),
+        getPresence: bindApiCall<UsersGetPresenceArguments, WebAPICallResult>(this, "users.getPresence"),
+        identity: bindApiCall<UsersIdentityArguments, WebAPICallResult>(this, "users.identity"),
+        info: bindApiCall<UsersInfoArguments, WebAPICallResult>(this, "users.info"),
+        list: bindApiCall<UsersListArguments, WebAPICallResult>(this, "users.list"),
+        lookupByEmail: bindApiCall<UsersLookupByEmailArguments, WebAPICallResult>(this, "users.lookupByEmail"),
+        setPhoto: bindApiCall<UsersSetPhotoArguments, WebAPICallResult>(this, "users.setPhoto"),
+        setPresence: bindApiCall<UsersSetPresenceArguments, WebAPICallResult>(this, "users.setPresence"),
         profile: {
-            get: bindApiCall<UsersProfileGetArguments, WebAPICallResult>(this, 'users.profile.get'),
-            set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, 'users.profile.set'),
+            get: bindApiCall<UsersProfileGetArguments, WebAPICallResult>(this, "users.profile.get"),
+            set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, "users.profile.set"),
         },
     }
 
     public readonly workflows = {
-        stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WebAPICallResult>(this, 'workflows.stepCompleted'),
-        stepFailed: bindApiCall<WorkflowsStepFailedArguments, WebAPICallResult>(this, 'workflows.stepFailed'),
-        updateStep: bindApiCall<WorkflowsUpdateStepArguments, WebAPICallResult>(this, 'workflows.updateStep'),
+        stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WebAPICallResult>(this, "workflows.stepCompleted"),
+        stepFailed: bindApiCall<WorkflowsStepFailedArguments, WebAPICallResult>(this, "workflows.stepFailed"),
+        updateStep: bindApiCall<WorkflowsUpdateStepArguments, WebAPICallResult>(this, "workflows.updateStep"),
     }
 }
 
@@ -446,8 +524,8 @@ export abstract class Methods extends EventTarget {
  */
 export default interface Method<
     MethodArguments extends WebAPICallOptions,
-    MethodResult extends WebAPICallResult = WebAPICallResult
-    > {
+    MethodResult extends WebAPICallResult = WebAPICallResult,
+> {
     (options?: MethodArguments): Promise<MethodResult>
 }
 
@@ -465,8 +543,8 @@ export interface LocaleAware {
 export interface Searchable {
     query: string
     highlight?: boolean
-    sort: 'score' | 'timestamp'
-    sort_dir: 'asc' | 'desc'
+    sort: "score" | "timestamp"
+    sort_dir: "asc" | "desc"
     team_id?: string
 }
 
@@ -506,11 +584,11 @@ export interface AdminAppsApprovedListArguments extends WebAPICallOptions, Token
     team_id?: string
     enterprise_id?: string
 }
-cursorPaginationEnabledMethods.add('admin.apps.approved.list')
+cursorPaginationEnabledMethods.add("admin.apps.approved.list")
 export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('admin.apps.requests.list')
+cursorPaginationEnabledMethods.add("admin.apps.requests.list")
 export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
     app_id?: string
     request_id?: string
@@ -520,7 +598,7 @@ export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, Tok
     team_id?: string
     enterprise_id?: string
 }
-cursorPaginationEnabledMethods.add('admin.apps.restricted.list')
+cursorPaginationEnabledMethods.add("admin.apps.restricted.list")
 
 export interface AdminBarriersCreateArguments extends WebAPICallOptions, TokenOverridable {
     barriered_from_usergroup_ids: string[]
@@ -532,8 +610,8 @@ export interface AdminBarriersDeleteArguments extends WebAPICallOptions, TokenOv
     barrier_id: string
 }
 
-export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.barriers.list')
+export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add("admin.barriers.list")
 
 export interface AdminBarriersUpdateArguments extends WebAPICallOptions, TokenOverridable {
     barrier_id: string
@@ -563,19 +641,21 @@ export interface AdminConversationsDisconnectSharedArguments extends WebAPICallO
     leaving_team_ids?: string[]
 }
 export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     channel_ids?: string[]
     team_ids?: string[]
 }
-cursorPaginationEnabledMethods.add('admin.conversations.ekm.listOriginalConnectedChannelInfo')
+cursorPaginationEnabledMethods.add("admin.conversations.ekm.listOriginalConnectedChannelInfo")
 export interface AdminConversationsGetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
     channel_id: string
 }
 export interface AdminConversationsGetTeamsArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     channel_id: string
 }
-cursorPaginationEnabledMethods.add('admin.conversations.getTeams')
+cursorPaginationEnabledMethods.add("admin.conversations.getTeams")
 export interface AdminConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
     channel_id: string
     user_ids: string[]
@@ -599,14 +679,15 @@ export interface AdminConversationsRestrictAccessRemoveGroupArguments extends We
     team_id: string
 }
 export interface AdminConversationsSearchArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     query?: string
     search_channel_types?: string[]
-    sort?: 'relevant' | 'name' | 'member_count' | 'created'
-    sort_dir?: 'asc' | 'desc'
+    sort?: "relevant" | "name" | "member_count" | "created"
+    sort_dir?: "asc" | "desc"
     team_ids?: string[]
 }
-cursorPaginationEnabledMethods.add('admin.conversations.search')
+cursorPaginationEnabledMethods.add("admin.conversations.search")
 export interface AdminConversationsSetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
     channel_id: string
     prefs: Record<string, unknown> // TODO: we should be more specific here
@@ -628,8 +709,8 @@ export interface AdminEmojiAddAliasArguments extends WebAPICallOptions, TokenOve
     name: string
     alias_for: string
 }
-export interface AdminEmojiListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.emoji.list')
+export interface AdminEmojiListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add("admin.emoji.list")
 export interface AdminEmojiRemoveArguments extends WebAPICallOptions, TokenOverridable {
     name: string
 }
@@ -637,47 +718,46 @@ export interface AdminEmojiRenameArguments extends WebAPICallOptions, TokenOverr
     name: string
     new_name: string
 }
-export interface AdminInviteRequestsApproveArguments
-    extends WebAPICallOptions, TokenOverridable {
+export interface AdminInviteRequestsApproveArguments extends WebAPICallOptions, TokenOverridable {
     invite_request_id: string
     team_id: string
 }
 export interface AdminInviteRequestsApprovedListArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list')
-export interface AdminInviteRequestsDenyArguments
-    extends WebAPICallOptions, TokenOverridable {
+cursorPaginationEnabledMethods.add("admin.inviteRequests.approved.list")
+export interface AdminInviteRequestsDenyArguments extends WebAPICallOptions, TokenOverridable {
     invite_request_id: string
     team_id: string
 }
 export interface AdminInviteRequestsDeniedListArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list')
-export interface AdminInviteRequestsListArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+cursorPaginationEnabledMethods.add("admin.inviteRequests.denied.list")
+export interface AdminInviteRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.list')
+cursorPaginationEnabledMethods.add("admin.inviteRequests.list")
 export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.teams.admins.list')
+cursorPaginationEnabledMethods.add("admin.teams.admins.list")
 export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
     team_domain: string
     team_name: string
     team_description?: string
     team_discoverability?: string
 }
-export interface AdminTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.teams.list')
+export interface AdminTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add("admin.teams.list")
 export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.teams.owners.list')
+cursorPaginationEnabledMethods.add("admin.teams.owners.list")
 export interface AdminTeamsSettingsInfoArguments extends WebAPICallOptions, TokenOverridable {
     team_id: string
 }
@@ -691,7 +771,7 @@ export interface AdminTeamsSettingsSetDescriptionArguments extends WebAPICallOpt
 }
 export interface AdminTeamsSettingsSetDiscoverabilityArguments extends WebAPICallOptions, TokenOverridable {
     team_id: string
-    discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted'
+    discoverability: "open" | "invite_only" | "closed" | "unlisted"
 }
 export interface AdminTeamsSettingsSetIconArguments extends WebAPICallOptions, TokenOverridable {
     team_id: string
@@ -740,7 +820,7 @@ export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverr
 export interface AdminUsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     team_id: string
 }
-cursorPaginationEnabledMethods.add('admin.users.list')
+cursorPaginationEnabledMethods.add("admin.users.list")
 export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
     team_id: string
     user_id: string
@@ -762,7 +842,7 @@ export interface AdminUsersSetRegularArguments extends WebAPICallOptions, TokenO
     team_id: string
     user_id: string
 }
-cursorPaginationEnabledMethods.add('admin.users.session.list')
+cursorPaginationEnabledMethods.add("admin.users.session.list")
 export interface AdminUsersSessionListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     user_id?: string
     team_id?: string
@@ -777,10 +857,11 @@ export interface AdminUsersSessionInvalidateArguments extends WebAPICallOptions,
     team_id: string
 }
 export interface AppsEventAuthorizationsListArguments
-    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     event_context: string
 }
-cursorPaginationEnabledMethods.add('apps.event.authorizations.list')
+cursorPaginationEnabledMethods.add("apps.event.authorizations.list")
 export interface AppsUninstallArguments extends WebAPICallOptions {
     client_id: string
     client_secret: string
@@ -795,8 +876,8 @@ export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable
 export interface AuthTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     include_icon?: boolean
 }
-cursorPaginationEnabledMethods.add('auth.teams.list')
-export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable { }
+cursorPaginationEnabledMethods.add("auth.teams.list")
+export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {}
 
 /*
  * `bots.*`
@@ -886,7 +967,7 @@ export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridab
     exclude_members?: boolean
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('channels.list')
+cursorPaginationEnabledMethods.add("channels.list")
 export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -941,7 +1022,7 @@ export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOver
     attachments?: MessageAttachment[]
     blocks?: (KnownBlock | Block)[]
     link_names?: boolean
-    parse?: 'full' | 'none'
+    parse?: "full" | "none"
 }
 export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
@@ -953,7 +1034,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
     icon_url?: string
     link_names?: boolean
     mrkdwn?: boolean
-    parse?: 'full' | 'none'
+    parse?: "full" | "none"
     reply_broadcast?: boolean // if specified, thread_ts must be set
     thread_ts?: string
     unfurl_links?: boolean
@@ -968,20 +1049,21 @@ export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOv
     attachments?: MessageAttachment[]
     blocks?: (KnownBlock | Block)[]
     link_names?: boolean
-    parse?: 'full' | 'none'
+    parse?: "full" | "none"
     reply_broadcast?: boolean // if specified, thread_ts must be set
     thread_ts?: string
     unfurl_links?: boolean
     unfurl_media?: boolean
     team_id?: string
 }
-export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, TokenOverridable,
-    CursorPaginationEnabled {
+export interface ChatScheduledMessagesListArguments
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled
+{
     channel: string
     latest: number
     oldest: number
 }
-cursorPaginationEnabledMethods.add('chat.scheduledMessages.list')
+cursorPaginationEnabledMethods.add("chat.scheduledMessages.list")
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -998,7 +1080,7 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
     attachments?: MessageAttachment[]
     blocks?: (KnownBlock | Block)[]
     link_names?: boolean
-    parse?: 'full' | 'none'
+    parse?: "full" | "none"
 }
 
 /*
@@ -1015,11 +1097,12 @@ export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOv
     is_private?: boolean
     team_id?: string
 }
-export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
-    TimelinePaginationEnabled {
+export interface ConversationsHistoryArguments
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, TimelinePaginationEnabled
+{
     channel: string
 }
-cursorPaginationEnabledMethods.add('conversations.history')
+cursorPaginationEnabledMethods.add("conversations.history")
 export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
     channel: string
 }
@@ -1042,7 +1125,7 @@ export interface ConversationsListArguments extends WebAPICallOptions, TokenOver
     types?: string // comma-separated list of conversation types
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('conversations.list')
+cursorPaginationEnabledMethods.add("conversations.list")
 export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -1050,7 +1133,7 @@ export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOver
 export interface ConversationsMembersArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
     channel: string
 }
-cursorPaginationEnabledMethods.add('conversations.members')
+cursorPaginationEnabledMethods.add("conversations.members")
 export interface ConversationsOpenArguments extends WebAPICallOptions, TokenOverridable {
     channel?: string
     users?: string // comma-separated list of users
@@ -1060,12 +1143,13 @@ export interface ConversationsRenameArguments extends WebAPICallOptions, TokenOv
     channel: string
     name: string
 }
-export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
-    TimelinePaginationEnabled {
+export interface ConversationsRepliesArguments
+    extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, TimelinePaginationEnabled
+{
     channel: string
     ts: string
 }
-cursorPaginationEnabledMethods.add('conversations.replies')
+cursorPaginationEnabledMethods.add("conversations.replies")
 export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     purpose: string
@@ -1089,8 +1173,8 @@ export interface DialogOpenArguments extends WebAPICallOptions, TokenOverridable
 /*
  * `dnd.*`
  */
-export interface DndEndDndArguments extends WebAPICallOptions, TokenOverridable { }
-export interface DndEndSnoozeArguments extends WebAPICallOptions, TokenOverridable { }
+export interface DndEndDndArguments extends WebAPICallOptions, TokenOverridable {}
+export interface DndEndSnoozeArguments extends WebAPICallOptions, TokenOverridable {}
 export interface DndInfoArguments extends WebAPICallOptions, TokenOverridable {
     user: string
 }
@@ -1104,7 +1188,7 @@ export interface DndTeamInfoArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `emoji.*`
  */
-export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable { }
+export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable {}
 
 /*
  * `files.*`
@@ -1117,7 +1201,7 @@ export interface FilesInfoArguments extends WebAPICallOptions, TokenOverridable,
     count?: number
     page?: number
 }
-cursorPaginationEnabledMethods.add('files.info')
+cursorPaginationEnabledMethods.add("files.info")
 export interface FilesListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
     channel?: string
     user?: string
@@ -1157,7 +1241,7 @@ export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverri
     ts_to?: string
     channel?: string
 }
-cursorPaginationEnabledMethods.add('files.remote.list')
+cursorPaginationEnabledMethods.add("files.remote.list")
 export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverridable {
     title: string
     external_url: string
@@ -1228,7 +1312,7 @@ export interface GroupsListArguments extends WebAPICallOptions, TokenOverridable
     exclude_members?: boolean
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('groups.list')
+cursorPaginationEnabledMethods.add("groups.list")
 export interface GroupsMarkArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -1268,8 +1352,8 @@ export interface IMHistoryArguments extends WebAPICallOptions, TokenOverridable,
     count?: number
     unreads?: boolean
 }
-export interface IMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('im.list')
+export interface IMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add("im.list")
 export interface IMMarkArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -1303,8 +1387,8 @@ export interface MPIMHistoryArguments extends WebAPICallOptions, TokenOverridabl
     count?: number
     unreads?: boolean
 }
-export interface MPIMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('mpim.list')
+export interface MPIMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add("mpim.list")
 export interface MPIMMarkArguments extends WebAPICallOptions, TokenOverridable {
     channel: string
     ts: string
@@ -1373,13 +1457,14 @@ export interface ReactionsGetArguments extends WebAPICallOptions, TokenOverridab
     file?: string // file id
     file_comment?: string
 }
-export interface ReactionsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
-    CursorPaginationEnabled {
+export interface ReactionsListArguments
+    extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled, CursorPaginationEnabled
+{
     user?: string
     full?: boolean
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('reactions.list')
+cursorPaginationEnabledMethods.add("reactions.list")
 export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverridable {
     name: string
     // must supply one of:
@@ -1406,7 +1491,7 @@ export interface RemindersDeleteArguments extends WebAPICallOptions, TokenOverri
 export interface RemindersInfoArguments extends WebAPICallOptions, TokenOverridable {
     reminder: string
 }
-export interface RemindersListArguments extends WebAPICallOptions, TokenOverridable { }
+export interface RemindersListArguments extends WebAPICallOptions, TokenOverridable {}
 
 /*
  * `rtm.*`
@@ -1418,7 +1503,7 @@ export interface RTMConnectArguments extends WebAPICallOptions, TokenOverridable
 export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
     batch_presence_aware?: boolean
     mpim_aware?: boolean
-    no_latest?: '0' | '1'
+    no_latest?: "0" | "1"
     no_unreads?: string
     presence_sub?: boolean
     simple_latest?: boolean
@@ -1427,12 +1512,13 @@ export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, 
 /*
  * `search.*`
  */
-export interface SearchAllArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
-    Searchable { }
-export interface SearchFilesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
-    Searchable { }
-export interface SearchMessagesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
-    Searchable { }
+export interface SearchAllArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled, Searchable {}
+export interface SearchFilesArguments
+    extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled, Searchable
+{}
+export interface SearchMessagesArguments
+    extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled, Searchable
+{}
 
 /*
  * `stars.*`
@@ -1444,9 +1530,10 @@ export interface StarsAddArguments extends WebAPICallOptions, TokenOverridable {
     file?: string // file id
     file_comment?: string
 }
-export interface StarsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
-    CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('stars.list')
+export interface StarsListArguments
+    extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled, CursorPaginationEnabled
+{}
+cursorPaginationEnabledMethods.add("stars.list")
 export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridable {
     // must supply one of:
     channel?: string // paired with `timestamp`
@@ -1468,7 +1555,7 @@ export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverr
     user?: string
     team_id?: string
 }
-export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable { }
+export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {}
 export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
     app_id?: string
     change_type?: string // TODO: list types: 'x' | 'y' | 'z'
@@ -1479,7 +1566,7 @@ export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOv
     team_id?: string
 }
 export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
-    visibility?: 'all' | 'visible' | 'hidden'
+    visibility?: "all" | "visible" | "hidden"
     team_id?: string
 }
 
@@ -1533,12 +1620,12 @@ export interface UsersConversationsArguments extends WebAPICallOptions, TokenOve
     user?: string
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('users.conversations')
-export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable { }
+cursorPaginationEnabledMethods.add("users.conversations")
+export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable {}
 export interface UsersGetPresenceArguments extends WebAPICallOptions, TokenOverridable {
     user: string
 }
-export interface UsersIdentityArguments extends WebAPICallOptions, TokenOverridable { }
+export interface UsersIdentityArguments extends WebAPICallOptions, TokenOverridable {}
 export interface UsersInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
     user: string
 }
@@ -1546,7 +1633,7 @@ export interface UsersListArguments extends WebAPICallOptions, TokenOverridable,
     presence?: boolean // deprecated, defaults to false
     team_id?: string
 }
-cursorPaginationEnabledMethods.add('users.list')
+cursorPaginationEnabledMethods.add("users.list")
 export interface UsersLookupByEmailArguments extends WebAPICallOptions, TokenOverridable {
     email: string
 }
@@ -1557,7 +1644,7 @@ export interface UsersSetPhotoArguments extends WebAPICallOptions, TokenOverrida
     crop_y?: number
 }
 export interface UsersSetPresenceArguments extends WebAPICallOptions, TokenOverridable {
-    presence: 'auto' | 'away'
+    presence: "auto" | "away"
 }
 export interface UsersProfileGetArguments extends WebAPICallOptions, TokenOverridable {
     include_labels?: boolean
@@ -1618,4 +1705,4 @@ export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOv
     }[]
 }
 
-export * from 'https://deno.land/x/slack_types@3.0.0/mod.ts'
+export * from "https://deno.land/x/slack_types@3.0.0/mod.ts"

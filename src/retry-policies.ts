@@ -1,5 +1,5 @@
-import { InputOptions } from '../deps.ts'
-export type { InputOptions as RetryOptions } from '../deps.ts'
+import { InputOptions } from "../deps.ts"
+export type { InputOptions as RetryOptions } from "../deps.ts"
 
 /**
  * The default retry policy. Retry up to 10 times, over the span of about 30 minutes. It's not exact because
